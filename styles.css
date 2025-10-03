@@ -1,0 +1,181 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(rgb(1, 114, 144, 0.7), rgb(1, 114, 144, 0.5)), url(./Assets/Seaside.webp);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+body.active {
+    background:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(./Assets/moonlight.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.container {
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.theme {
+    width: 120px;
+    margin-left: auto;
+    margin-bottom: 0.2rem;
+    font-size: 0.875rem;
+    padding: 1rem;
+    color: #fff;
+    transition: 0.5s;
+    position: relative;
+}
+
+.theme span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: scale(0.9);
+    font-size: 1.2rem;
+    font-weight: 600;
+    transition: 0.5s;
+}
+
+.theme.active span {
+    left: 50px;
+}
+
+#toggle {
+    position: relative;
+    display: block;
+    background: linear-gradient(rgba(255, 255,255, 0.9), rgba(255, 255, 255, 0.5)), url(./Assets/Seaside.webp);
+    background-size: cover;
+    background-position: bottom;
+    width: 150px;
+    height: 50px;
+    border-radius: 160px;
+    margin-left: auto;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.toggle-switch {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: url(./Assets/sun.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    transform: scale(0.9);
+    transition: 0.5s;
+}
+
+#toggle.active .toggle-switch {
+    background: url(./Assets/moon.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    left: 100px;
+}
+
+#toggle.active {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(./Assets/moonlight.jpg);
+    background-size: cover;
+    background-position: top;
+    box-shadow: 4px 4px 15px rgba(235, 65, 65, 0.5), -4px -4px 15px rgba(65, 235, 235, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.stopwatch-container {
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 7px;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 1rem 0.5rem 2rem;
+    margin-block-start: 2rem;
+    text-align: center;
+}
+
+.stopwatch-container.active {
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 2px 2px 10px rgba(235, 65, 65, 0.3);
+    color: #fff;
+}
+
+#display {
+    font-size: 2.5rem;
+    font-weight: 600;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+}
+
+.table th, .table td {
+    padding: 0.7rem;
+}
+
+.table th {
+    background-color: #017290;
+    color: white;
+}
+
+.table tr {
+    border-bottom: 1px solid #ddd;
+}
+
+.table td {
+    font-weight: 500;
+}
+
+.table tr:nth-child(even) {
+    background-color: #00252f;
+    color: #fff;
+}
+
+.buttons {
+    margin-top: 2rem;
+}
+
+button {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0 0.5rem;
+    padding: 0.7rem 1.5rem;
+    width: 120px;
+    border: none;
+    cursor: pointer;
+    border-radius: 7px;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+#startBtn {
+    background-color: #019067;
+    color: #fff;
+}
+
+
+@media screen and (max-width: 600px) {
+   .container {
+        padding: .5rem;
+    }
+
+    #display {
+        font-size: 1.875rem;
+    }
+
+    button {
+        font-size: 1rem;
+    }
+}
