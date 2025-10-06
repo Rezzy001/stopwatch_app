@@ -15,7 +15,7 @@ body {
     flex-direction: column;
     background-color: var(--bg-color-light-theme);
     color: var(--text-color-white);
-    padding: 1.5rem;
+    padding: 1rem;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -24,15 +24,13 @@ body.active {
 }
 
 .container {
-    max-width: 500px;
+    max-width: 900px;
     padding: 1rem;
+    width: 90%;
 }
 
 .container.active {
-    background-color: rgba(47, 10, 10, 0.5);
     color: var(--text-color-white);
-    border-radius: 10px;
-    box-shadow: 2px 2px 4px rgba(251, 237, 237, 0.3), -2px 2px 5px rgba(251, 237, 237, 0.4);
 }
 
 .theme {
@@ -43,7 +41,7 @@ body.active {
     border-radius: 50px;
     padding: 0.5rem;
     margin-left: auto;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     transition: 0.3s;
     text-align: right;
 }
@@ -80,13 +78,18 @@ body.active {
     flex-direction: column;
 	margin: 0 auto;
 	text-align: center;
+    width: 70%;
+    padding: 1rem;
 }
 
+.table-area {
+    height: 30vh;
+}
 
 .table-container {
 	flex: 1; /* takes up all remaining space between timer and buttons */
     overflow-y: auto; /* scroll only this area */
-    max-height: 30vh; /* optional: limit lap section height */
+    max-height: 25vh; /* optional: limit lap section height */
     padding: 0.5rem;
 }
 
@@ -147,6 +150,12 @@ button {
     cursor: not-allowed;
 }
 
+@media screen and (max-width: 800px) {
+    .stopwatch-container {
+        width: 100%;
+    }
+}
+
 @media screen and (max-width: 450px) {
     body {
         padding: 1.5rem 0.5rem;
@@ -154,6 +163,7 @@ button {
 
     .container {
         padding: 0.5rem;
+        width: 100%;
     }
 
     .theme {
@@ -178,20 +188,35 @@ button {
     left: 90px;
     }
 
+    .stopwatch-container {
+        width: unset;
+    }
+
     .stopwatch-container h1 {
         font-size: 1.5rem;
     }
 
+    .table-container {
+        padding: 0;
+        max-height: 40vh;
+    }
+
     #display {
         font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .table-area {
+        height: 45vh;
     }
 
     .table th, .table td {
         font-size: 0.875rem;
+        padding: 0.7rem;
     }
 
-    .table th, .table td {
-        padding: 0.7rem;
+    .buttons {
+        margin-top: 1.5rem;
     }
 
     button {
