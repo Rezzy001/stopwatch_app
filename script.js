@@ -127,7 +127,8 @@ function displayLapTime() {
   row.innerHTML = `<td>${lapCount
     .toString()
     .padStart(2, 0)}</td><td>${lapTime}</td><td>${totalTime}</td>`;
-  displayLaps.appendChild(row);
+  
+  displayLaps.prepend(row); // This is for the users to see the newest lap at the top of the table.
 
   lastLapTime = { milliseconds, seconds, minutes, hours };
 }
