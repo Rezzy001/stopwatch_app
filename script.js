@@ -1,3 +1,28 @@
+// Restore state on reload
+window.addEventListener('load', () => {
+  const savedData = JSON.parse(localStorage.getItem('stopwatchData'));
+  if (savedData) {
+    hours = savedData.hours || 0;
+    minutes = savedData.minutes || 0;
+    seconds = savedData.seconds || 0;
+    milliseconds = savedData.milliseconds || 0;
+    displayLapList.innerHTML = savedData.laps || '';
+    isRunning = savedData.isRunning || false;
+  }
+
+  display.textContent = `${hours.toString().padStart(2, 0)}:${minutes
+    .toString()
+    .padStart(2, 0)}:${seconds.toString().padStart(2, 0)}:${milliseconds
+    .toString()
+    .padStart(2, 0)}`;
+
+  if (isRunning) {
+    startTimer();
+  }
+});
+
+
+// Stopwatch building begins
 const body = document.querySelector('body');
 const display = document.getElementById('display');
 const container = document.querySelector('.container');
@@ -12,11 +37,12 @@ const resetButton = document.getElementById('resetBtn');
 
 //table
 const tableContainer = document.querySelector('.table-container');
-const displayLaps = document.getElementById('laplist');
+const displayLapList = document.getElementById('laplist');
 const tableHeader = document.querySelector('.table-header');
 
 // initialise variables
 let timer = null;
+let isRunning = false;
 let milliseconds = 0,
   seconds = 0,
   minutes = 0,
@@ -58,6 +84,32 @@ function updateDisplay() {
   let hrs = hours < 10 ? '0' + hours : hours;
 
   display.textContent = `${hrs}:${mins}:${secs}:${ms}`;
+
+  // save automatically every second
+  if (milliseconds >= 100) {
+    milliseconds = 0;
+    seconds++;
+  }
+  if (seconds >= 60) {
+    seconds = 0;
+    minutes++;
+  }
+  if (minutes >= 60) {
+    minutes = 0;
+    hours++;
+  }
+
+  // update display
+  display.textContent = `${hours.toString().padStart(2, 0)}:${minutes
+    .toString()
+    .padStart(2, 0)}:${seconds.toString().padStart(2, 0)}:${milliseconds
+    .toString()
+    .padStart(2, 0)}`;
+
+  // Auto-save every second
+  if (milliseconds === 0) {
+    saveStopwatchData();
+  }
 }
 
 // to pause the timer
@@ -77,8 +129,10 @@ function resetTimer() {
   lapCount = 0;
   lastLapTime = { milliseconds: 0, seconds: 0, minutes: 0, hours: 0 };
 
-  displayLaps.innerHTML = '';
+  displayLapList.innerHTML = '';
   updateDisplay();
+
+  localStorage.removeItem('stopwatchData');
 }
 
 // to record lap times
@@ -127,11 +181,87 @@ function displayLapTime() {
   row.innerHTML = `<td>${lapCount
     .toString()
     .padStart(2, 0)}</td><td>${lapTime}</td><td>${totalTime}</td>`;
-  
-  displayLaps.prepend(row); // This is for the users to see the newest lap at the top of the table.
+
+  displayLapList.prepend(row); // This is for the users to see the recent lap at the top of the table.
 
   lastLapTime = { milliseconds, seconds, minutes, hours };
 }
+
+// To save user data on reload
+function saveStopwatchData() {
+  const data = {
+    hours,
+    minutes,
+    seconds,
+    milliseconds,
+    laps: displayLapList.innerHTML,
+    lapCount,
+    tableHeader: tableHeader.innerHTML,
+    theme: body.classList.contains('active') ? 'dark' : 'light',
+    isRunning,
+  };
+  localStorage.setItem('stopwatchData', JSON.stringify(data));
+}
+
+// Restore data
+function restoreStopwatchData() {
+  const savedData = JSON.parse(localStorage.getItem('stopwatchData'));
+  
+  if (!savedData) {
+    return;
+  }
+  
+  hours = savedData.hours || 0;
+  minutes = savedData.minutes || 0;
+  seconds = savedData.seconds || 0;
+  milliseconds = savedData.milliseconds || 0;
+  displayLapList.innerHTML = savedData.laps || '';
+  lapCount = savedData.lapCount || 0;
+  tableHeader.innerHTML = savedData.tableHeader || '';
+  isRunning = savedData.isRunning || false;
+  
+  if (savedData) {
+    // 🌗 Restore theme
+    if (savedData.theme === 'dark') {
+      body.classList.add('active');
+      toggle.classList.add('active');
+      container.classList.add('active');
+      themeText.innerText = 'Dark Mode';
+      toggle.style.textAlign = 'left';
+      toggle.style.paddingLeft = '1rem';
+      toggle.style.paddingRight = '0';
+    } else {
+      body.classList.remove('active');
+      toggle.classList.remove('active');
+      container.classList.remove('active');
+      themeText.innerText = 'Light Mode';
+      toggle.style.textAlign = 'right';
+      toggle.style.paddingRight = '0.5rem';
+    }
+    
+    // Resume stopwatch if it was running
+    if (isRunning) {
+      startTimer();
+    }
+  }
+}
+
+// Table scroll effect
+tableContainer.addEventListener('scroll', () => {
+  tableHeader.style.position = 'sticky';
+  tableHeader.style.top = '0';
+
+  const darkMode = body.classList.contains('active');
+  
+  if (tableContainer.scrollTop > 0) {
+    tableHeader.style.backgroundColor = darkMode ? 'rgb(177, 38, 37)' : 'rgb(20, 20, 20)';
+    tableHeader.style.color = '#fff';
+  } else {
+    tableHeader.style.backgroundColor = 'rgb(255, 255, 255)';
+    tableHeader.style.color = 'rgb(20, 20, 20)';
+  }
+});
+
 
 // button controls
 startButton.addEventListener('click', () => {
@@ -196,5 +326,12 @@ toggle.addEventListener('click', () => {
     themeText.innerText = 'Light Mode';
     toggle.style.textAlign = 'right';
     toggle.style.paddingRight = '0.5rem';
-  }
+  } 
+  
+  saveStopwatchData();
 });
+
+
+setInterval(saveStopwatchData, 1000);
+
+document.addEventListener('DOMContentLoaded', restoreStopwatchData);

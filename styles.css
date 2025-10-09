@@ -69,7 +69,7 @@ body.active {
 
 #display {
 	margin-bottom: 1rem;
-	font-size: 2rem;
+	font-size: 2.5rem;
 }
 
 
@@ -90,11 +90,12 @@ body.active {
 	flex: 1; /* takes up all remaining space between timer and buttons */
     overflow-y: auto; /* scroll only this area */
     max-height: 25vh; /* optional: limit lap section height */
-    padding: 0.5rem;
+    padding: 0 0.5rem;
 }
 
+
 .table {
-	width: 100%;
+    width: 100%;
 	margin-bottom: 1.5rem;
     border-collapse: collapse;
 }
@@ -102,6 +103,12 @@ body.active {
 .table-header {
     background: var(--text-color-white);
     color: var(--text-color-black);
+    font-size: 1.25rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+tbody {
+    font-size: 1.125rem;
 }
 
 .table th, .table td {
@@ -202,12 +209,16 @@ button {
     }
 
     #display {
-        font-size: 1.5rem;
+        font-size: 2rem;
         margin-bottom: 1.5rem;
     }
 
     .table-area {
         height: 45vh;
+    }
+
+    .table-header {
+        font-size: 1.125rem;
     }
 
     .table th, .table td {
